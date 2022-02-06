@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="|주문 상세: ${order.number}|">주문 상세</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container">
+    <h2>주문 상세</h2>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <td rowspan="2">주문</td>
+            <td>번호</td>
+            <td th:text="${order.number}"></td>
+        </tr>
+        <tr>
+            <td>상태</td>
+            <td th:text="#{${order.state}}"></td>
+        </tr>
+        <tr>
+            <td>주문자</td>
+            <td>이름</td>
+            <td th:text="${order.orderer.name}"></td>
+        </tr>
+        <tr>
+            <td rowspan="3">받는사람</td>
+            <td>이름</td>
+            <td th:text="${order.shippingInfo.receiver.name}"></td>
+        </tr>
+        <tr>
+            <td>연락처</td>
+            <td th:text="${order.shippingInfo.receiver.phone}"></td>
+        </tr>
+        <tr>
+            <td>주소</td>
+            <td>
+                <span th:text="${order.shippingInfo.address.zipCode}"></span>
+                <span th:text="${order.shippingInfo.address.address1}"></span>
+                <span th:text="${order.shippingInfo.address.address2}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>상품</th>
+            <th>가격</th>
+            <th>개수</th>
+            <th>합</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ol: ${order.orderLines}">
+            <td th:text="${ol.productName}"></td>
+            <td th:text="${ol.price}"></td>
+            <td th:text="${ol.quantity}"></td>
+            <td th:text="${ol.amounts}"></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="3">총합</td>
+            <td th:text="${order.totalAmounts}">총합</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <block th:if="${order.notYetShipped}">
+        <button id="cancelBtn" class="btn btn-danger">주문 취소하기</button>
+    </block>
+    <a class="btn btn-dark" href="/my/orders" role="button">주문 목록 보기</a>
+    <a class="btn btn-dark" href="/home" role="button">첫 화면으로 이동하기</a>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+<form id="goCancelForm"
+      th:action="@{/my/orders/{orderNo}/cancel(orderNo=${order.number})}" method="post"></form>
+
+<script>
+    $(function () {
+        $("#cancelBtn").click(function () {
+            if (confirm("주문을 취소하시겠습니까?")) {
+                $("#goCancelForm").submit();
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

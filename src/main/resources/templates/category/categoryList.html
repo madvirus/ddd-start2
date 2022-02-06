@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>카테고리 목록</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container">
+    <h3>카테고리 목록</h3>
+    <ul>
+        <li th:each="cat: ${categories}">
+            <a th:href="@{/categories/{catId}(catId=${cat.id.value})}" th:text="${cat.name}"></a>
+        </li>
+    </ul>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+</body>
+</html>

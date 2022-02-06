@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 : 주문 목록</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/main">관리자</a></li>
+            <li class="breadcrumb-item active" aria-current="page" href="/admin/orders">주문 관리</li>
+        </ol>
+    </nav>
+
+    <h2>주문 목록</h2>
+    <div class="alert alert-info" role="alert" th:if="${orderPage.content.isEmpty()}">
+        주문 내역이 없습니다.
+    </div>
+
+    <table class="table" th:if="${!orderPage.content.isEmpty()}">
+        <thead>
+        <tr>
+            <th>주문번호</th>
+            <th>금액</th>
+            <th>상태</th>
+            <th>상품</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order: ${orderPage.content}">
+            <td><a th:href="@{/admin/orders/{orderNum}(orderNum=${order.number})}" th:text="${order.number}">주문번호</a></td>
+            <td th:text="${order.totalAmounts}">구매금액</td>
+            <td th:text="#{${order.state}}">상태</td>
+            <td>[[${order.productName}]] 등</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav th:if="${pagination.totalPages > 0}">
+        <ul class="pagination">
+            <li class="page-item" th:if="${pagination.hasPrevious}">
+                <a class="page-link" th:href="@{/admin/orders?p={pageNo}(pageNo=${pagination.previousBeginPage})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:each="pageNo : ${pagination.pageNos}" class="page-item"><a class="page-link" th:href="@{/admin/orders?p={pageNo}(pageNo=${pageNo})}" th:text="${pageNo}">1</a></li>
+            <li class="page-item" th:if="${pagination.hasNext}">
+                <a class="page-link" th:href="@{/admin/orders?p={pageNo}(pageNo=${pagination.nextBeginPage})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+</body>
+</html>

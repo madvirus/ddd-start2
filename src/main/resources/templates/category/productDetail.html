@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>제품 상세</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="/fragments/layout :: header"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"><img th:src="${product.images[0].url}" src="" class="img-fluid"></div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.name}">제품명</div>
+                    <p class="card-text">
+                        가격 : <span th:text="${product.price}"></span>
+                        <br>
+                        상세 : <span th:text="${product.detail}"></span>
+                    </p>
+                    <button type="button" class="btn btn-primary" id="orderBtn">구매하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="/fragments/layout :: footer"></div>
+
+<script sec:authorize="!isAuthenticated()" th:inline="javascript">
+    function handleOrder() {
+        alert("로그인을 먼저 하세요!");
+    }
+</script>
+<script sec:authorize="isAuthenticated()" th:inline="javascript">
+    function handleOrder() {
+        alert("주문 확인 화면으로 넘어갑니다.");
+        $("#goConfirmForm").submit();
+    }
+</script>
+<script th:inline="javascript">
+    $(function() {
+        $("#orderBtn").click(function() {
+            handleOrder();
+        });
+    });
+</script>
+
+<form id="goConfirmForm" action="/orders/orderConfirm" method="post" sec:authorize="isAuthenticated()">
+    <input type="hidden" name="orderProducts[0].productId" th:value="${product.id.id}">
+    <input type="hidden" name="orderProducts[0].quantity" value="1">
+</form>
+</body>
+</html>

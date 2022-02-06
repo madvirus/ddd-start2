@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>제품 목록</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container">
+    <h2 th:text="${productInCategory.category.name}">카테고리</h2>
+
+    <span th:if="${productInCategory.items.isEmpty()}">상품이 없습니다.</span>
+
+    <div class="card mb-3" style="max-width: 540px;" th:each="product: ${productInCategory.items}">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <a th:href="@{/products/{productId}(productId=${product.id})}">
+                    <img class="img-fluid rounded-start" th:src="${product.image}" src=""
+                         th:alt="${product.name}">
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.name}">이름</h5>
+                    <p class="card-text">가격 : [[${product.price}]]</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이샵</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container">
+    <div class="alert alert-info" role="alert">
+        로그아웃했습니다.
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

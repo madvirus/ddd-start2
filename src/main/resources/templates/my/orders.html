@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>마이샵</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container">
+    <h2>주문 목록</h2>
+
+    <div class="alert alert-info" role="alert" th:if="${orders.isEmpty()}">
+        주문 내역이 없습니다.
+    </div>
+
+    <table class="table" th:if="${!orders.isEmpty()}">
+        <thead>
+        <tr>
+            <th>주문번호</th>
+            <th>금액</th>
+            <th>상태</th>
+            <th>상품</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td><a href="#" th:href="@{/my/orders/{orderNumber}(orderNumber=${order.number})}" th:text="${order.number}">주문번호</a></td>
+            <td th:text="${order.totalAmounts}">금액</td>
+            <td th:text="#{${order.state}}">상태</td>
+            <td><span th:text="${order.productName}">제품명</span> 등</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+</body>
+</html>

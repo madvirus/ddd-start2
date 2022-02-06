@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>마이샵</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container">
+    <h2><span sec:authentication="principal.username">user</span> 님</h2>
+    <ul>
+        <li><a href="/my/orders">주문 목록 보기</a></li>
+    </ul>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+</body>
+</html>

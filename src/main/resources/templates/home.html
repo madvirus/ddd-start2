@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이샵</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="p-2 mb-2 bg-light rounded-3 mt-2">
+    <div class="container-fluid py-5">
+        <h3 class="display-5 fw-bold">오늘의 특가</h3>
+        <p class="col-md-8 fs-4">라즈베리파이 3</p>
+        <a class="btn btn-primary btn-lg" type="button" href="/products/prod-001">상품 보기</a>
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

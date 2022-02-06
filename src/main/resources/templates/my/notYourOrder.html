@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>내 주문</title>
+  <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container">
+  <div class="alert alert-danger" role="alert">
+    존재하지 않는 주문입니다.[NYO]
+  </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이샵</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container">
+    <div class="alert alert-success" role="alert">
+        주문[<span th:text="${orderNo}">번호</span>]을 완료했습니다.
+    </div>
+
+    <a class="btn btn-primary" th:href="@{/my/orders/{orderNo}(orderNo=${orderNo})}" role="button">주문 내역 보기</a>
+    <a class="btn btn-btn" href="/home" role="button">첫 화면으로 이동하기</a>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+</body>
+</html>

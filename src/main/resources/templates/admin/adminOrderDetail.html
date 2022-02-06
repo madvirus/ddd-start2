@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="|관리자 주문 상세 ${order.number}|"></title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="/fragments/layout :: header"></div>
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/main">관리자</a></li>
+            <li class="breadcrumb-item"><a href="/admin/orders">주문 관리</a></li>
+            <li class="breadcrumb-item active" aria-current="page">주문 [[${order.number}]]</li>
+        </ol>
+    </nav>
+
+    <h2>주문 상세</h2>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <td rowspan="2">주문</td>
+            <td>번호</td>
+            <td th:text="${order.number}"></td>
+        </tr>
+        <tr>
+            <td>상태</td>
+            <td th:text="#{${order.state}}"></td>
+        </tr>
+        <tr>
+            <td>주문자</td>
+            <td>이름</td>
+            <td th:text="${order.orderer.name}"></td>
+        </tr>
+        <tr>
+            <td rowspan="3">받는사람</td>
+            <td>이름</td>
+            <td th:text="${order.shippingInfo.receiver.name}"></td>
+        </tr>
+        <tr>
+            <td>연락처</td>
+            <td th:text="${order.shippingInfo.receiver.phone}"></td>
+        </tr>
+        <tr>
+            <td>주소</td>
+            <td>
+                <span th:text="${order.shippingInfo.address.zipCode}"></span>
+                <span th:text="${order.shippingInfo.address.address1}"></span>
+                <span th:text="${order.shippingInfo.address.address2}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>상품</th>
+            <th>가격</th>
+            <th>개수</th>
+            <th>합</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ol: ${order.orderLines}">
+            <td th:text="${ol.productName}"></td>
+            <td th:text="${ol.price}"></td>
+            <td th:text="${ol.quantity}"></td>
+            <td th:text="${ol.amounts}"></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="3">총합</td>
+            <td th:text="${order.totalAmounts}">총합</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <button th:if="${order.notYetShipped}" id="shippedBtn" class="btn btn-dark">배송 처리하기</button>
+</div>
+
+<div th:replace="/fragments/layout :: footer"></div>
+
+<form id="goShppingForm" th:action="@{/admin/orders/{orderNumber}/shipping(orderNumber=${order.number})}" method="post">
+    <input type="hidden" name="version" th:value="${order.version}">
+</form>
+
+<script th:inline="javascript">
+    $(function () {
+        $("#shippedBtn").click(function () {
+            if (confirm("배송 상태로 처리하시겠습니까?")) {
+                $("#goShppingForm").submit();
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 페이지</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container">
+    <h2>관리자</h2>
+    <ul>
+        <li><a href="/admin/orders">주문 관리</a></li>
+    </ul>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+</body>
+</html>

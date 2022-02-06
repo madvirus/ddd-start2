@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 확인</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container">
+    <form method="post"
+          th:object="${orderReq}"
+          th:action="@{/orders/order}" action="#">
+        <div class="card mb-2">
+            <div class="card-body">
+            <h5 class="card-title">주문자</h5>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">아이디</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" th:value="${orderReq.ordererMemberId.id}" value="email@example.com">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-2">
+            <div class="card-body">
+                <h5 class="card-title">주문 상품</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>상품</th>
+                        <th>가격</th>
+                        <th>개수</th>
+                        <th>합</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="op,status : ${orderReq.orderProducts}">
+                        <td th:text="${products[status.index].name}">제품명</td>
+                        <td th:text="${products[status.index].price}">1000</td>
+                        <td><span th:text="${op.quantity}">1</span>
+                            <input type="hidden"
+                                   th:name="${'orderProducts[' + status.index + '].productId'}"
+                                   th:value="${op.productId}" />
+                            <input type="hidden"
+                                   th:name="${'orderProducts[' + status.index + '].quantity'}"
+                                   th:value="${op.quantity}" />
+                        </td>
+                        <td th:value="${products[status.index].price.value * op.quantity}">금액</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3">총합</td>
+                        <td th:text="${totalAmounts}">총합</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mb-2">
+            <div class="card-body">
+                <h5 class="card-title">받는 사람</h5>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label" for="shippingInfoReceiverName">이름</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               th:field="*{shippingInfo.receiver.name}"
+                               id="shippingInfoReceiverName"
+                        />
+                        <div class="form-text" th:each="err : ${#fields.errors('shippingInfo.receiver.name')}" th:text="${err}">
+                            입력 오류 메시지
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label" for="shippingInfoReceiverPhone">연락처</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               th:field="*{shippingInfo.receiver.phone}"
+                               id="shippingInfoReceiverPhone"
+                        />
+                        <div class="form-text" th:each="err : ${#fields.errors('shippingInfo.receiver.phone')}" th:text="${err}">
+                            입력 오류 메시지
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label" for="shippingInfoAddressZipCode">우편번호</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               th:field="*{shippingInfo.address.zipCode}"
+                               id="shippingInfoAddressZipCode"
+                        />
+                        <div class="form-text" th:each="err : ${#fields.errors('shippingInfo.address.zipCode')}" th:text="${err}">
+                            입력 오류 메시지
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label" for="shippingInfoAddressAddress1">주소1</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               th:field="*{shippingInfo.address.address1}"
+                               id="shippingInfoAddressAddress1"
+                        />
+                        <div class="form-text" th:each="err : ${#fields.errors('shippingInfo.address.address1')}" th:text="${err}">
+                            입력 오류 메시지
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label" for="shippingInfoAddressAddress2">주소2</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               th:field="*{shippingInfo.address.address2}"
+                               id="shippingInfoAddressAddress2"
+                        />
+                        <div class="form-text" th:each="err : ${#fields.errors('shippingInfo.address.address2')}" th:text="${err}">
+                            입력 오류 메시지
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">구매하기</button>
+    </form>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+</body>
+</html>
