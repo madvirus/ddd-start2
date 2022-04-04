@@ -10,7 +10,7 @@ public class Option {
     @Column(name = "option_title")
     private String title;
 
-    private Option() {
+    protected Option() {
     }
 
     public Option(String value, String title) {
